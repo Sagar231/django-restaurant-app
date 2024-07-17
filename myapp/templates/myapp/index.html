@@ -1,7 +1,26 @@
 {% extends 'myapp/base.html' %}
 
 {% block body %}
-
-This is my website
-
+  <div class=" flex flex-col justify-center items-center">
+    <div class="w-full max-w-md mx-auto text-center">
+      <h1 class="text-5xl font-bold mb-4">Welcome to Bella Tavola!</h1>
+      <p class="text-lg">Enjoy the best dishes in town!</p>
+    </div>
+    <div class="w-full">
+      <div class="flex flex-wrap pl-32 pr-40">
+        {% for item in menu %}
+        <div class="w-1/3 shadow-lg p-6 mt-2 ">
+          <img src="{{ item.image.url }}" class="w-full h-72 w-52 " alt="{{ item.name }}">
+          <h2 class="text-2xl font-bold text-gray-700 mt-1 mb-1">{{ item.name }}</h2>
+          <div class="mb-2">
+            <p class="text-sm mb-1">{{ item.description }}</p>
+          </div>
+          
+          <p class="text-lg font-bold text-green-500">$ {{ item.price }}</p>
+          <button class="bg-green-700 mt-2 rounded p-4 text-white"><a href=""> Details</a></button>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 {% endblock %}
