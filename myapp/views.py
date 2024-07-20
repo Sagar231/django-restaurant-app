@@ -9,6 +9,8 @@ def index(request):
     menu = Menu.objects.all()
     return render(request,'myapp/index.html',{"menu":menu})
 
+
+
 def userlogin(request):
     if request.method =='POST':
         form = LoginForm(request.POST)
@@ -44,4 +46,5 @@ def register(request):
         user_form = UserRegistrationForm()
 
     return render(request,'myapp/register.html',{'user_form':user_form})
+
 
