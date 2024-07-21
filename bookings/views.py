@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from .models import Booking
-from .forms import BookingForm,CancelBookingForm
+from .models import Booking, UserBooking
+from .forms import BookingForm
+from django.contrib import messages
 
 @login_required
 def book_table(request):
@@ -20,31 +20,33 @@ def book_table(request):
             booking, table = Booking.objects.update_or_create_booking(user, booking_instance, customer_name, table_type)
 
             if table:
-                return JsonResponse({'status': 'success', 'message': f'Table {table} booked successfully!'})
+                messages.success(request, f'Table {table} booked successfully!')
+                form = BookingForm()  # Clear the form
             else:
-                return JsonResponse({'status': 'error', 'message': 'No available tables for the selected time and type.'})
+                messages.error(request, 'No available tables for the selected type at the perticular time.')
+                form = BookingForm()  # Clear the form
     else:
         form = BookingForm()
 
-    return render(request, 'book_table.html', {'form': form})
+    return render(request, 'bookings/book_table.html', {'form': form})
 
 
 @login_required
-def cancel_booking(request):
+def my_bookings(request):
+    user_bookings = UserBooking.objects.filter(user=request.user)
+    return render(request, 'bookings/my_bookings.html', {'user_bookings': user_bookings})
+
+
+@login_required
+def cancel_booking(request, booking_id):
     if request.method == 'POST':
-        form = CancelBookingForm(request.POST)
-        if form.is_valid():
-            booking_instance = form.cleaned_data['booking_instance']
-            table_type = form.cleaned_data['table_type']
-            table_number = form.cleaned_data['table_number']
+        success = Booking.objects.cancel_booking(booking_id)
+        if success:
+            messages.success(request, 'Booking cancelled successfully!')
+        else:
+            messages.error(request, 'Could not cancel the booking. Please try again.')
+        
+        # Redirect back to my_bookings with a message
+        return redirect('my_bookings') 
 
-            success = Booking.objects.cancel_booking(booking_instance, table_type, table_number)
-
-            if success:
-                return JsonResponse({'status': 'success', 'message': f'Booking for {table_number} cancelled successfully!'})
-            else:
-                return JsonResponse({'status': 'error', 'message': 'Could not cancel the booking. Please check the details and try again.'})
-    else:
-        form = CancelBookingForm()
-
-    return render(request, 'cancel_booking.html', {'form': form})
+    return redirect('my_bookings')

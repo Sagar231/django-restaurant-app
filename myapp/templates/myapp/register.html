@@ -1,37 +1,51 @@
-
 {% extends 'myapp/base.html' %}
+
 {% block body %}
-<h1 class="text-2xl font-semibold m-10">Register User</h1>
-<div class="container py-5">
-    <form method="POST" class="bg-white shadow-md m-10 w-2/5 rounded px-8 pt-6 pb-8 mb-4">
+<h1 class="text-2xl font-semibold text-center mt-10 mb-6">Register User</h1>
+<div class="container mx-auto py-5 px-4">
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ message }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-6 mb-4 max-w-md mx-auto">
         {% csrf_token %}
-        <div class="mb-3">
-            <label class="block text-gray-700 text-sm font-bold mb-2"for="">Email</label>
-            <div class="shadow text-gray-700 appearance-none border rounded mr-10">{{ user_form.email }}</div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+            <div class="shadow appearance-none border rounded">
+                {{ user_form.email }}
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="block text-gray-700 text-sm font-bold mb-2"for="">Username</label>
-            <div class="shadow text-gray-700 appearance-none border rounded mr-10">{{ user_form.username }}</div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
+            <div class="shadow appearance-none border rounded">
+                {{ user_form.username }}
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="block text-gray-700 text-sm font-bold mb-2"for="">First name</label>
-            <div class="shadow text-gray-700 appearance-none border rounded mr-10">{{ user_form.first_name }}</div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="first_name">First Name</label>
+            <div class="shadow appearance-none border rounded">
+                {{ user_form.first_name }}
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="block text-gray-700 text-sm font-bold mb-2"for="">Password</label>
-            <div class="shadow text-gray-700 appearance-none border rounded mr-10">{{ user_form.password }}</div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+            <div class="shadow appearance-none border rounded">
+                {{ user_form.password }}
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="block text-gray-700 text-sm font-bold mb-2"for="">Confirm Password</label>
-            <div class="shadow text-gray-700 appearance-none border rounded mr-10">{{ user_form.password2 }}</div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password2">Confirm Password</label>
+            <div class="shadow appearance-none border rounded">
+                {{ user_form.password2 }}
+            </div>
         </div>
         
-        
-        <!-- as_p to render it as paragraph -->
-        <button class="text-white bg-green-500 px-4 py-2"type="submit">Register</button>
-        </form>   
+        <button class="w-full text-white bg-green-500 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400" type="submit">Register</button>
+    </form>   
 </div> 
 {% endblock %}
-
-
-

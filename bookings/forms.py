@@ -8,32 +8,40 @@ class BookingForm(forms.Form):
     ]
 
     TABLE_CHOICES = [
-        ('table for 2', 'Table for 2'),
-        ('table for 4', 'Table for 4')
+        ('table_for_2', 'Table for 2'),
+        ('table_for_4', 'Table for 4')
     ]
 
+    today = datetime.date.today()
     date = forms.DateField(
         widget=forms.DateInput(attrs={
             'type': 'date',
-            'min': (datetime.date.today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+            'min': (today + datetime.timedelta(days=1)).strftime('%Y-%m-%d'),
+            'max': (today + datetime.timedelta(days=7)).strftime('%Y-%m-%d'),
+            'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
         })
     )
-    time = forms.ChoiceField(choices=DATE_CHOICES)
-    table_type = forms.ChoiceField(choices=TABLE_CHOICES)
-    customer_name = forms.CharField(max_length=100)
+    time = forms.ChoiceField(
+        choices=DATE_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+        })
+    )
+    table_type = forms.ChoiceField(
+        choices=TABLE_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+        })
+    )
+    customer_name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+        })
+    )
 
     def clean_date(self):
         date = self.cleaned_data['date']
-        if date < datetime.date.today() + datetime.timedelta(days=1):
-            raise forms.ValidationError("The date cannot be today or in the past!")
+        if date < datetime.date.today() + datetime.timedelta(days=1) or date > datetime.date.today() + datetime.timedelta(days=7):
+            raise forms.ValidationError("The date must be within the next week!")
         return date
-
-class CancelBookingForm(forms.Form):
-    table_type_choices = [
-        ('table for 2', 'Table for 2'),
-        ('table for 4', 'Table for 4')
-    ]
-
-    booking_instance = forms.CharField(max_length=100)
-    table_type = forms.ChoiceField(choices=table_type_choices)
-    table_number = forms.CharField(max_length=10)
