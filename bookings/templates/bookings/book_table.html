@@ -1,0 +1,49 @@
+{% extends 'myapp/base.html' %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-4">Book a Table</h2>
+    
+    <!-- Display messages -->
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <div class="p-4 mb-4 text-sm text-white bg-green-500 rounded">
+            {{ message }}
+        </div>
+        {% elif message.tags == 'error' %}
+        <div class="p-4 mb-4 text-sm text-white bg-red-500 rounded">
+            {{ message }}
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="{{ form.date.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Date</label>
+            {{ form.date }}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.time.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Time</label>
+            {{ form.time }}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.table_type.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Table Type</label>
+            {{ form.table_type }}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.customer_name.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Customer Name</label>
+            {{ form.customer_name }}
+        </div>
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Book Table
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

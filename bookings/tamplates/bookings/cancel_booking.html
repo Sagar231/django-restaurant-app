@@ -1,5 +1,0 @@
-<form method="POST" action="{% url 'cancel_booking' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Cancel Booking</button>
-</form>

@@ -7,23 +7,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'myapp/styles.css' %}">
     <title>Document</title>
+    <style>
+        /* Add some extra padding to ensure the menu doesn't cover the navbar completely */
+        .menu-container {
+            padding-top: 3.5rem; /* Adjust as needed */
+        }
+    </style>
 </head>
 <body>
-    <nav class="shadow-lg mb-4 fixed w-full top-0 z-10 bg-white">
-        <div class="flex flex-wrap justify-between m-2 pl-3 pr-3">
-            <div class="">
-                <a href="{% url 'index' %}" class="flex flex-wrap">
+    <nav class="shadow-lg mb-4 fixed w-full top-0 z-30 bg-white">
+        <div class="flex flex-wrap justify-between items-center m-2 pl-3 pr-3">
+            <div class="flex items-center">
+                <a href="{% url 'index' %}" class="flex items-center">
                     <img class="h-9" src="https://cdn2.iconfinder.com/data/icons/international-food/64/bibimbub-64.png" alt="">
-                    <span class="ml-2 text-xl font-bold ">Sagar's Bella Tavola</span>
+                    <span class="ml-2 text-xl font-bold">Sagar's Bella Tavola</span>
                 </a>
             </div>
-            <div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-500 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden md:flex space-x-4">
                 {% if request.user.is_authenticated %}
+                <a class="py-4 px-2 text-gray-500 font-semibold" href="{% url 'my_bookings' %}">My Bookings</a>
+                <a class="py-4 px-2 text-gray-500 font-semibold" href="{% url 'book_table' %}">Book table</a>
                 <a class="py-4 px-2 text-gray-500 font-semibold" href="{% url 'logout' %}">Logout</a>
-                <a class="py-4 px-2 text-gray-500 font-semibold" href="{% url 'logout' %}">Reserve</a>
                 {% else %}
                 <a class="py-4 px-2 text-gray-500 font-semibold" href="{% url 'login' %}">Login</a>
                 <a class="py-4 px-2 text-gray-500 font-semibold" href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+        <div id="mobile-menu" class="fixed inset-0 bg-white z-20 hidden menu-container">
+            <div class="flex flex-col items-center py-4 space-y-4">
+                <button id="menu-close" class="text-gray-500 absolute top-2 right-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                {% if request.user.is_authenticated %}
+                <a class="text-gray-500 font-semibold" href="{% url 'my_bookings' %}">My Bookings</a>
+                <a class="text-gray-500 font-semibold" href="{% url 'book_table' %}">Book table</a>
+                <a class="text-gray-500 font-semibold" href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                <a class="text-gray-500 font-semibold" href="{% url 'login' %}">Login</a>
+                <a class="text-gray-500 font-semibold" href="{% url 'register' %}">Register</a>
                 {% endif %}
             </div>
         </div>
@@ -32,6 +63,17 @@
         {% block body %}
         {% endblock %}
     </div>
-    
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        document.getElementById('menu-close').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.add('hidden');
+        });
+    </script>
 </body>
 </html>
