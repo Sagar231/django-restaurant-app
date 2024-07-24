@@ -21,30 +21,25 @@
     </div>
     {% endif %}
 
-    <table class="min-w-full bg-white border border-gray-200">
-        <thead>
-            <tr class="w-full bg-gray-100 border-b">
-                <th class="py-2 px-4 border-r">Booking Instance</th>
-                <th class="py-2 px-4 border-r">Table Type</th>
-                <th class="py-2 px-4">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for booking in user_bookings %}
-            <tr class="border-b">
-                <td class="flex items-center justify-center py-2 px-4 border-r">
-                    <span>{{ booking.booking_instance }}</span>
-                </td>
-                <td class="py-2 px-4 border-r">{{ booking.table_type }}</td>
-                <td class="py-2 px-4">
-                    <form action="{% url 'cancel_booking' booking.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">Cancel</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="shadow-lg m-10 rounded-lg">
+        <div class="flex flex-wrap sm:flex-no-wrap justify-between px-4 sm:px-15 py-5 bg-gray-100 border-b">
+            <span class="w-full sm:w-1/4 font-bold">Booking Instance</span>
+            <span class="w-full sm:w-1/4 font-bold">Table Type</span>
+            <span class="w-full sm:w-1/4 font-bold">Action</span>
+        </div>
+        <hr class="m-5">
+        {% for booking in user_bookings %}
+        <div class="flex flex-wrap sm:flex-no-wrap justify-between px-4 sm:px-15 py-5 border-b">
+            <span class="w-full sm:w-1/4 font-bold">{{ booking.booking_instance }}</span>
+            <span class="w-full sm:w-1/4 font-bold">{{ booking.table_type }}</span>
+            <span class="w-full sm:w-1/4">
+                <form action="{% url 'cancel_booking' booking.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">Cancel</button>
+                </form>
+            </span>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
