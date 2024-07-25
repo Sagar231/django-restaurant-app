@@ -2,13 +2,16 @@ from pathlib import Path
 import os
 import dj_database_url
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-m9hdnw#oci^)4$lh&1kp=h6zfuon1sj3275_7+yx7l643suyhj')
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '.railway.app').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'django-restaurant-app-production.up.railway.app').split(',')
 
 INSTALLED_APPS = [
     'myapp',
@@ -51,9 +54,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bellatavola.wsgi.application'
 
+# Database
+# Use dj-database-url to parse the database URL from the environment variable
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('postgresql://postgres:WmsNdmnozMCePHKyRetAvoueBSTjftNV@:5432/railway')
+        default=os.environ.get('DATABASE_URL', 'postgresql://postgres:password@localhost:5432/railway')
     )
 }
 
@@ -80,11 +85,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Media files (uploads)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
