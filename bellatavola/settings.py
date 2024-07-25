@@ -58,7 +58,7 @@ WSGI_APPLICATION = 'bellatavola.wsgi.application'
 # Use dj-database-url to parse the database URL from the environment variable
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', 'postgresql://postgres:password@localhost:5432/railway')
+        default=os.environ.get('DATABASE_URL', 'postgresql://postgres:WmsNdmnozMCePHKyRetAvoueBSTjftNV@monorail.proxy.rlwy.net:15400/railway')
     )
 }
 
