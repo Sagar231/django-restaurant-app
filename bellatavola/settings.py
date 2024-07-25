@@ -9,8 +9,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-m9hdnw#oci^)4$lh&1kp=h6zfuon1sj3275_7+yx7l643suyhj')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'True'
-# os.environ.get('DEBUG', 'False') == 
+DEBUG = os.environ.get('DEBUG', 'False') ==  'True'
+# 
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'django-restaurant-app-production.up.railway.app').split(',')
 
@@ -23,6 +23,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://django-restaurant-app-production.up.railway.app',
 ]
 
 MIDDLEWARE = [
